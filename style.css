@@ -1,0 +1,125 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.container {
+    background-image: url(content/bg.gif);
+    background-repeat: no-repeat;
+    background-size: 100vw 100vh;
+    width: 100vw;
+    height: 100vh;
+}
+
+#yourPlayer {
+    background-image: url(content/goat2.gif);
+    background-size: cover;
+    width: 149px;
+    height: 113px;
+    position: absolute;
+    bottom: 58px;
+    left: 3px;
+}
+
+#opponent {
+    background-image: url(content/loin.gif);
+    transform: scaleX(-1);
+    width: 150px;
+    height: 85px;
+    position: absolute;
+    bottom: 58px;
+    right: 90px;
+    background-size: cover;
+}
+
+.welcome {
+    font-family: gameFont5;
+    background-color: #de707070;
+    color: #3e4a5c;
+    position: absolute;
+    right: 8.5em;
+    top: 3em;
+    font-size: 2.5em;
+    width: 21.5em;
+    padding: 5px;
+    text-align: center;
+}
+
+.gameOver {
+    font-family: gameFont4;
+    position: absolute;
+    right: 8em;
+    top: 2em;
+    font-size: 68px;
+    width: 7.5em;
+    padding: 5px;
+    background-color: #de707070;
+    color: red;
+    text-align: center;
+    visibility: hidden;
+}
+
+.reload {
+    font-size: .6em;
+}
+
+.score {
+    font-family: gameFont2;
+    background-color: #70dece;
+    color: #ff0738;
+    position: relative;
+    right: 1em;
+    top: 0;
+    font-size: 2.5em;
+    width: 15.5em;
+    padding: 5px;
+    text-align: center;
+}
+
+.goatAni {
+    animation: goatAni 0.4s linear;
+}
+
+@keyframes goatAni {
+    0% {
+        bottom: 117px;
+    }
+
+    50% {
+        bottom: 400px;
+    }
+
+    100% {
+        bottom: 117px;
+    }
+}
+
+.opponentAni {
+    animation: opponentAni 4s linear infinite;
+}
+
+@keyframes opponentAni {
+    0% {
+        left: 100vw;
+    }
+
+    100% {
+        left: -10vw;
+    }
+}
+@font-face {
+    font-family: gameFont2;
+    src: url(font/CorporationGamesStraight-8KeM.ttf);
+}
+@font-face {
+    font-family: gameFont5;
+    src: url(font/WarEliteGrungeDemo-lg2J5.ttf);
+}
