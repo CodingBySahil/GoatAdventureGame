@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => {
         bgMusic.play();
-    }, 1);
+    }, 1000);
 
     document.addEventListener("keydown", handleKeyDown);
 
