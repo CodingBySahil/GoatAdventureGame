@@ -1,62 +1,91 @@
-let yourPlayer,opponent,gameOver,score = 0;
-yourPlayer=document.querySelector("#yourPlayer");
-opponent = document.querySelector("#opponent");
-gameOver = document.querySelector(".gameOver");
-// score = document.querySelector('.score');
-let bgMusic = new Audio('content/bgMusic.mp3')
-setTimeout(() => {
-    bgMusic.play();
-}, 1000);
-let gOver = new Audio('content/loinRoar.mp3')
-let flag = true;
-document.onkeydown = (e)=>{
-    if (e.keyCode == 38) {
-        yourPlayer.classList.add('goatAni')
-    }
+document.addEventListener("DOMContentLoaded", () => {
+    let yourPlayer = document.querySelector("#yourPlayer");
+    let opponent = document.querySelector("#opponent");
+    let gameOver = document.querySelector(".gameOver");
+    let scoreElement = document.querySelector(".score");
+    let score = 0;
+    let flag = true;
+
+    const bgMusic = new Audio('content/bgMusic.mp3');
+    const gOver = new Audio('content/loinRoar.mp3');
+
     setTimeout(() => {
-        yourPlayer.classList.remove('goatAni')
-    }, 300);
-    if (e.keyCode == 39) {
-        yourPlayer.style.left = `${parseInt(window.getComputedStyle(yourPlayer, null).getPropertyValue('left'))+100}px`
-    }
-    if (e.keyCode == 37) {
-        yourPlayer.style.left = `${parseInt(window.getComputedStyle(yourPlayer, null).getPropertyValue('left'))-100}px`
-    }
-    setInterval(() => {
-        gx = parseInt(window.getComputedStyle(yourPlayer, null).getPropertyValue('left'))
-        gy = parseInt(window.getComputedStyle(yourPlayer, null).getPropertyValue('top'))
-        lx = parseInt(window.getComputedStyle(opponent, null).getPropertyValue('left'))
-        ly = parseInt(window.getComputedStyle(opponent, null).getPropertyValue('top'))
+        bgMusic.play();
+    }, 1);
 
-        overValueX = Math.abs(gx - lx)
-        overValuey = Math.abs(gy - ly)
+    document.addEventListener("keydown", handleKeyDown);
 
-        if (overValueX < 50 && overValuey < 40) {
-            gameOver.style.visibility = 'visible'
-            document.querySelector('.welcome').style.visibility = 'hidden'
-            opponent.classList.remove('opponentAni')
-            // ppp var will store x value of loin and place the loin in x value place
-            ppp = parseInt(window.getComputedStyle(opponent, null).getPropertyValue('left'))
-            opponent.style.left = `${ppp}px`;
-            bgMusic.pause();
-            gOver.play();
-            setTimeout(() => {
-                gOver.pause();
-            }, 1200);
-        }else if (overValueX < 144 && flag) {
+    function handleKeyDown(e) {
+        switch (e.keyCode) {
+            case 38:
+                jump();
+                break;
+            case 39:
+                moveRight();
+                break;
+            case 37:
+                moveLeft();
+                break;
+        }
+    }
+
+    function jump() {
+        yourPlayer.classList.add('goatAni');
+        setTimeout(() => {
+            yourPlayer.classList.remove('goatAni');
+        }, 300);
+    }
+
+    function moveRight() {
+        yourPlayer.style.left = `${parseInt(getComputedStyle(yourPlayer).left) + 100}px`;
+    }
+
+    function moveLeft() {
+        yourPlayer.style.left = `${parseInt(getComputedStyle(yourPlayer).left) - 100}px`;
+    }
+
+    setInterval(checkCollision, 10);
+
+    function checkCollision() {
+        const gx = parseInt(getComputedStyle(yourPlayer).left);
+        const gy = parseInt(getComputedStyle(yourPlayer).top);
+        const lx = parseInt(getComputedStyle(opponent).left);
+        const ly = parseInt(getComputedStyle(opponent).top);
+
+        const overValueX = Math.abs(gx - lx);
+        const overValueY = Math.abs(gy - ly);
+
+        if (overValueX < 50 && overValueY < 40) {
+            endGame();
+        } else if (overValueX < 144 && flag) {
             score += 10;
             flag = false;
-            ubdateScore(score)
+            updateScore(score);
             setTimeout(() => {
-                flag = true
+                flag = true;
             }, 1000);
-            setTimeout(() => {
-                let speed = (parseFloat(window.getComputedStyle(opponent, null).getPropertyValue('animation-duration'))) - .15;
-                opponent.style.animationDuration = `${speed}s`
-            }, 500);
+            setTimeout(increaseSpeed, 500);
         }
-    }, 10);
-}
-function ubdateScore(credits){
-    document.querySelector('.score').innerHTML = `Your score : ${credits}`;
-}
+    }
+
+    function endGame() {
+        gameOver.style.visibility = 'visible';
+        document.querySelector('.welcome').style.visibility = 'hidden';
+        opponent.classList.remove('opponentAni');
+        opponent.style.left = `${parseInt(getComputedStyle(opponent).left)}px`;
+        bgMusic.pause();
+        gOver.play();
+        setTimeout(() => {
+            gOver.pause();
+        }, 1200);
+    }
+
+    function updateScore(score) {
+        scoreElement.innerHTML = `Your score : ${score}`;
+    }
+
+    function increaseSpeed() {
+        const speed = parseFloat(getComputedStyle(opponent).animationDuration) - 0.15;
+        opponent.style.animationDuration = `${speed}s`;
+    }
+});
